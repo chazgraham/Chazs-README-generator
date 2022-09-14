@@ -1,6 +1,8 @@
 // TODO: Include packages needed for this application
 const fs = require('fs');
 const inquirer = require('inquirer');
+const { default: Choice } = require('inquirer/lib/objects/choice.js');
+const generateMarkdown = require('./utils/generateMarkdown.js');
 
 // TODO: Create an array of questions for user input
 const questions = () => {
@@ -32,16 +34,17 @@ const questions = () => {
             }
         },
         {
-            type: 'confirm',
-            name: 'confirmInstallationInstructions',
-            message: 'Is there installation instructions needed for your application?',
-            default: true
-        },
-        {
             type: 'input',
             name: 'installationInstructions',
             message: 'What installation instructions are needed for your application?',
-            when: ({ confirmInstallationInstructions }) => confirmInstallationInstructions
+            validate: nameInput => {
+              if (nameInput) {
+                return true;
+              } else {
+                console.log('You need to enter installation instructions!');
+                return false;
+              }
+          } 
         },
         {
             type: 'input',
@@ -59,7 +62,7 @@ const questions = () => {
         {
             type: 'input',
             name: 'contribution',
-            messgae: 'Who contributed to the development of this application? (Required)',
+            message: 'Who contributed to the development of this application? (Required)',
             validate: nameInput => {
                 if (nameInput) {
                   return true;
@@ -69,16 +72,49 @@ const questions = () => {
                 }
             }
         },
-        // TODO: Add license checkbox
-        // TODO: Add questions section
+        {
+          type: 'checkbox',
+          name: 'licenes',
+          message: 'What licenes does your application have?',
+          choices: ['MIT', 'APACHE 2.0', 'GPL 3.0', 'BSD 3', 'None']
+        },
+        {
+          type: 'input',
+          name: 'questions1',
+          message: 'Enter your GitHub Username. (Required)',
+          validate: nameInput => {
+            if (nameInput) {
+              return true;
+            } else {
+              console.log('You need to enter github repository link!');
+              return false;
+            }
+          }
+        },
+        {
+          type: 'input',
+          name: 'questions2',
+          message: 'Enter your Email address here. (Required)',
+          validate: nameInput => {
+            if (nameInput) {
+              return true;
+            } else {
+              console.log('You need to enter your Email address!');
+              return false;
+            }
+          }
+        }
     ]);
 };
 
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
-
-// TODO: Create a function to initialize app
-function init() {}
-
 // Function call to initialize app
-init();
+questions()
+  .then(questions => {
+    const readme = generateMarkdown(questions);
+
+    fs.writeFile('./dist/README.md', readme, err => {
+      if (err) throw new Error(err);
+
+      console.log('README created!')
+    })
+  })
