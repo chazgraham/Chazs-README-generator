@@ -1,10 +1,7 @@
-// TODO: Include packages needed for this application
 const fs = require('fs');
 const inquirer = require('inquirer');
-const { default: Choice } = require('inquirer/lib/objects/choice.js');
 const generateMarkdown = require('./utils/generateMarkdown.js');
 
-// TODO: Create an array of questions for user input
 const questions = () => {
     return inquirer.prompt([
         {
@@ -74,9 +71,22 @@ const questions = () => {
         },
         {
           type: 'checkbox',
-          name: 'licenes',
+          name: 'license',
           message: 'What licenes does your application have?',
-          choices: ['MIT', 'APACHE 2.0', 'GPL 3.0', 'BSD 3', 'None']
+          choices: ['MIT', 'APACHE 2.0', 'GPL 3.0', 'lgpl-3.0', 'None']
+        },
+        {
+          type: 'input',
+          name: 'tests',
+          message: 'what commands are input into the console to run tests for this application? (Requried)',
+          validate: nameInput => {
+            if (nameInput) {
+              return true;
+            } else {
+              console.log('You need to enter test information! (If no tests are required then type None)');
+              return false;
+            }
+          }
         },
         {
           type: 'input',
@@ -107,14 +117,37 @@ const questions = () => {
     ]);
 };
 
+// writing files
+const writeToFile = fileContent => {
+  return new Promise((resolve, reject) => {
+    fs.writeFile('./dist/README.md', fileContent, err => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      resolve({
+        ok: true,
+        message: 'File created!'
+      });
+    });
+  });
+};
+
 // Function call to initialize app
-questions()
-  .then(questions => {
-    const readme = generateMarkdown(questions);
+//questions()
+ // .then(questions => {
+   // const readme = generateMarkdown(questions);
 
-    fs.writeFile('./dist/README.md', readme, err => {
-      if (err) throw new Error(err);
+   // fs.writeFile('./dist/README.md', readme, err => {
+     // if (err) throw new Error(err);
 
+   //   console.log('README created!')
+  //  })
+  //})
+  questions()
+    .then(function(answer) {
+      var fileContent = generateMarkdown(answer);
+      writeToFile(fileContent)
       console.log('README created!')
-    })
-  })
+    });
