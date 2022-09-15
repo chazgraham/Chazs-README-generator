@@ -3,56 +3,26 @@
 function renderLicenseBadge(license) {
   let badge = '';
   if(license === 'MIT') {
-    badge = '![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg'
+    badge = '[![license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://choosealicense.com/licenses/mit/)'
   } else if (license === 'APACHE 2.0') {
-    badge = '![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg'
+    badge = '[![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)'
   } else if (license === 'GPL 3.0') {
-    badge = '![license](https://img.shields.io/badge/License-GPLv3-blue.svg'
+    badge = '[![license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses)'
   } else if (license === 'lgpl-3.0') {
-    badge = '![license](https://img.shields.io/badge/License-lgpl-3.0.svg'
+    badge = '[![license](https://img.shields.io/badge/License-lgpl-3.0.svg)](http://choosealicense.com/licenses/lgpl-3.0/)'
   } else {
     badge = ''
   }
   return badge;
 }
 
-// returns the license link
-// If there is no license, return an empty string
-function renderLicenseLink(license) {
-  let licenseLink = '';
-  if(license === 'MIT') {
-    licenseLink = 'https://choosealicense.com/licenses/mit/'
-  } else if (license === 'APACHE 2.0') {
-    licenseLink = 'https://www.apache.org/licenses/LICENSE-2.0'
-  } else if (license === 'GPL 3.0') {
-    licenseLink = 'https://www.gnu.org/licenses'
-  } else if (license === 'lgpl-3.0') {
-    licenseLink = 'http://choosealicense.com/licenses/lgpl-3.0/'
-  } else {
-    licenseLink = ''
-  }
-  return licenseLink;
-}
-
-// a function that returns the license section of README
-// If there is no license, return an empty string
-function renderLicenseSection(license) {
-  let licenseSection = ''
-  if(license === 'None') {
-    licenseSection = ''
-  } else {
-    licenseSection = `License: ${license}`
-  }
-}
-
 // generates markdown for README
-// TODO: fix license section
 function generateMarkdown(answer) {
 
   return `# ${answer.title}
 
-  ## ${renderLicenseSection(answer.license)} ${renderLicenseBadge(answer.license)}
-  ### ${renderLicenseLink(answer.license)}
+  ${renderLicenseBadge(answer.license)}
+  
 
 ## Descripton
 ${answer.description}
@@ -61,6 +31,8 @@ ${answer.description}
   * [Installation Instructions](#installation-instructions)
   * [Application Usage](#application-usage)
   * [Contributors](#contributors)
+  * [Licenses](#Licenses)
+  * [Tests](#Tests)
   * [Contact Me](#contact-me)
 
 ## Installation Instructions

@@ -70,7 +70,7 @@ const questions = () => {
             }
         },
         {
-          type: 'checkbox',
+          type: 'list',
           name: 'license',
           message: 'What licenes does your application have?',
           choices: ['MIT', 'APACHE 2.0', 'GPL 3.0', 'lgpl-3.0', 'None']
@@ -120,7 +120,7 @@ const questions = () => {
 // writing files
 const writeToFile = fileContent => {
   return new Promise((resolve, reject) => {
-    fs.writeFile('./dist/README.md', fileContent, err => {
+    fs.writeFile('./dist/generateREADME.md', fileContent, err => {
       if (err) {
         reject(err);
         return;
@@ -134,20 +134,9 @@ const writeToFile = fileContent => {
   });
 };
 
-// Function call to initialize app
-//questions()
- // .then(questions => {
-   // const readme = generateMarkdown(questions);
-
-   // fs.writeFile('./dist/README.md', readme, err => {
-     // if (err) throw new Error(err);
-
-   //   console.log('README created!')
-  //  })
-  //})
-  questions()
-    .then(function(answer) {
-      var fileContent = generateMarkdown(answer);
-      writeToFile(fileContent)
-      console.log('README created!')
-    });
+questions()
+  .then(function(answer) {
+    var fileContent = generateMarkdown(answer);
+    writeToFile(fileContent)
+    console.log('README created!')
+});
