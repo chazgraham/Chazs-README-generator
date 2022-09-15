@@ -31,8 +31,8 @@ ${answer.description}
   * [Installation Instructions](#installation-instructions)
   * [Application Usage](#application-usage)
   * [Contributors](#contributors)
-  * [Licenses](#Licenses)
-  * [Tests](#Tests)
+  * [Licenses](#licenses)
+  * [Tests](#tests)
   * [Contact Me](#contact-me)
 
 ## Installation Instructions
